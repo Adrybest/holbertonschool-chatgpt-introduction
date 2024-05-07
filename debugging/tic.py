@@ -24,29 +24,28 @@ def check_winner(board):
 def tic_tac_toe():
 	board = [[" "]*3 for _ in range(3)]
 	player = "X"
-	while not check_winner(board):
+	moves = 0  # Count the number of moves
+	while not check_winner(board) and moves < 9:  # Add condition to ensure game stops when board is full
 		print_board(board)
-		while True:
-			try:
-				row = int(input("Enter row (0, 1, or 2) for player " + player + ": "))
-				if row not in range(3):
-					raise ValueError
-					col = int(input("Enter column (0, 1, or 2) for player " + player + ": "))
-				if col not in range(3):
-					raise ValueError
-					if board[row][col] == " ":
-						board[row][col] = player
-						if player == "X":
-							player = "O"
-						else:
-							player = "X"
-							break
+		row = int(input("Enter row (0, 1, or 2) for player " + player + ": "))
+		col = int(input("Enter column (0, 1, or 2) for player " + player + ": "))
+		if 0 <= row < 3 and 0 <= col < 3:  # Check if row and column indices are valid
+			if board[row][col] == " ":
+				board[row][col] = player
+				if player == "X":
+					player = "O"
 				else:
-					print("That spot is already taken! Try again.")
-			except ValueError:
-				print("Invalid input. Please enter a number between 0 and 2.")
+					player = "X"
+				moves += 1  # Increment move count after each move
+			else:
+				print("That spot is already taken! Try again.")
+		else:
+			print("Invalid input! Row and column must be between 0 and 2.")
 
 	print_board(board)
-	print("Player " + player + " wins!")
+	if check_winner(board):
+		print("Player " + player + " wins!")
+	else:
+		print("It's a tie!")
 
 tic_tac_toe()
